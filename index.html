@@ -1,1119 +1,1475 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>losingfocuslately — Harsh Jaishanker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&family=Nunito:ital,wght@0,300;1,300&family=Space+Mono&display=swap" rel="stylesheet">
-<style>
-  /* Fallback font stack — Century Gothic is a system font on Windows/Mac */
-  :root {
-    --font-display: 'Jost', 'Century Gothic', 'Futura', 'Trebuchet MS', sans-serif;
-    --font-body: 'Nunito', 'Century Gothic', 'Gill Sans', 'Trebuchet MS', sans-serif;
-    --font-mono: 'Space Mono', 'Courier New', monospace;
-  }
-</style>
-<style>
-  :root {
-    --black: #0a0806;
-    --deep: #100d0a;
-    --charcoal: #1c1814;
-    --warm-dark: #2a211a;
-    --amber: #c8833a;
-    --amber-dim: #8a5a26;
-    --warm-white: #e8ddd0;
-    --cream: #f0e8dc;
-    --muted: #7a6a5a;
-    --grain-opacity: 0.045;
-  }
-
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--warm-white);
-    font-family: var(--font-body);
-    overflow-x: hidden;
-    cursor: crosshair;
-  }
-
-  /* GRAIN OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: var(--grain-opacity);
-    mix-blend-mode: overlay;
-  }
-
-  /* NAVBAR */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 4rem;
-    background: linear-gradient(to bottom, rgba(10,8,6,0.95) 0%, transparent 100%);
-  }
-
-  .nav-logo {
-    font-family: var(--font-display);
-    font-size: 0.9rem;
-    letter-spacing: 0.2em;
-    color: var(--amber);
-    text-transform: uppercase;
-    text-decoration: none;
-    opacity: 0;
-    animation: fadeIn 1.2s ease 0.3s forwards;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 3rem;
-    list-style: none;
-    opacity: 0;
-    animation: fadeIn 1.2s ease 0.6s forwards;
-  }
-
-  .nav-links a {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-
-  .nav-links a:hover { color: var(--warm-white); }
-
-  /* HERO */
-  .hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 70% at 70% 40%, rgba(100, 55, 15, 0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(60, 35, 10, 0.12) 0%, transparent 60%),
-      linear-gradient(160deg, var(--black) 0%, var(--deep) 50%, #150f0a 100%);
-  }
-
-  .hero-line {
-    position: absolute;
-    top: 0; left: 50%;
-    width: 1px;
-    height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(200, 131, 58, 0.08), transparent);
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    opacity: 0;
-    transform: translateY(0px);
-    animation: riseIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-  }
-
-  .hero-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--amber-dim);
-    margin-bottom: 3rem;
-  }
-
-  .hero-name {
-    font-family: var(--font-display);
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 200;
-    line-height: 1;
-    letter-spacing: 0.06em;
-    color: var(--cream);
-    margin-bottom: 2rem;
-  }
-
-  .hero-handle {
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--amber);
-    letter-spacing: 0.1em;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--muted);
-    max-width: 420px;
-    margin-bottom: 4rem;
-  }
-
-  .hero-scroll {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber-dim);
-    text-decoration: none;
-    transition: color 0.3s;
-    margin-top: 2rem;
-  }
-
-  .hero-scroll::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 1px;
-    background: var(--amber-dim);
-    transition: width 0.4s ease;
-  }
-
-  .hero-scroll:hover { color: var(--amber); }
-  .hero-scroll:hover::before { width: 70px; background: var(--amber); }
-
-  /* DIVIDER */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(200,131,58,0.2), transparent);
-    margin: 0;
-  }
-
-  /* SECTION SHARED */
-  section {
-    padding: 8rem 4rem;
-  }
-
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--amber-dim);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .section-label::after {
-    content: '';
-    display: block;
-    flex: 1;
-    max-width: 60px;
-    height: 1px;
-    background: var(--amber-dim);
-  }
-
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 4vw, 3.5rem);
-    font-weight: 200;
-    color: var(--cream);
-    line-height: 1.15;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.5rem;
-  }
-
-  /* ABOUT */
-  #about {
-    background: var(--deep);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-  }
-
-  .about-text p {
-    font-size: 1.15rem;
-    font-weight: 300;
-    line-height: 1.9;
-    color: var(--muted);
-    margin-bottom: 1.5rem;
-  }
-
-  .about-text p span {
-    color: var(--warm-white);
-    font-style: italic;
-  }
-
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem;
-    padding: 3rem;
-    border: 1px solid rgba(200,131,58,0.12);
-    background: rgba(200,131,58,0.03);
-  }
-
-
-  .stat-num {
-    font-family: var(--font-display);
-    font-size: 2.5rem;
-    color: var(--amber);
-    line-height: 1;
-    margin-bottom: 0.4rem;
-  }
-  .stat-label {
-    font-family: var(--font-mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* WORK / GALLERY */
-  #work {
-    background: var(--black);
-  }
-
-  .work-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 4rem;
-  }
-
-  .work-note {
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--muted);
-    max-width: 240px;
-    line-height: 1.6;
-    text-align: right;
-  }
-
-  /* MASONRY PLACEHOLDER GRID */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-auto-rows: 240px;
-    gap: 6px;
-  }
-
-  .gallery-item {
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    background: var(--charcoal);
-  }
-
-  .gallery-item:nth-child(1) { grid-column: 1/6; grid-row: 1/3; }
-  .gallery-item:nth-child(2) { grid-column: 6/9; grid-row: 1/2; }
-  .gallery-item:nth-child(3) { grid-column: 9/13; grid-row: 1/2; }
-  .gallery-item:nth-child(4) { grid-column: 6/10; grid-row: 2/4; }
-  .gallery-item:nth-child(5) { grid-column: 10/13; grid-row: 2/3; }
-  .gallery-item:nth-child(6) { grid-column: 1/5; grid-row: 3/4; }
-  .gallery-item:nth-child(7) { grid-column: 5/7; grid-row: 3/4; }
-  .gallery-item:nth-child(8) { grid-column: 10/13; grid-row: 3/4; }
-
-  /* placeholder image visual */
-  .gallery-item .placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0.18;
-    transition: opacity 0.4s;
-  }
-
-  .placeholder-icon {
-    width: 32px; height: 32px;
-    border: 1px solid var(--warm-white);
-    border-radius: 50%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .placeholder-icon::after {
-    content: '';
-    width: 8px; height: 8px;
-    background: var(--warm-white);
-    border-radius: 50%;
-  }
-
-  .placeholder-text {
-    font-family: var(--font-mono);
-    font-size: 0.5rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--warm-white);
-  }
-
-  /* real images when added */
-  .gallery-item img {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center;
-    filter: brightness(0.82) contrast(1.05) sepia(0.15);
-    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
-  }
-
-  .gallery-item:hover img {
-    transform: scale(1.04);
-    filter: brightness(0.9) contrast(1.05) sepia(0.1);
-  }
-
-  .gallery-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(10,8,6,0.7) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    display: flex;
-    align-items: flex-end;
-    padding: 1.5rem;
-  }
-
-  .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-  .gallery-item:hover .placeholder { opacity: 0.05; }
-
-  .overlay-info {
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--warm-white);
-    letter-spacing: 0.05em;
-  }
-
-  .gallery-cta {
-    margin-top: 3rem;
-    text-align: center;
-  }
-
-  /* HOW TO ADD PHOTOS NOTE */
-  .photo-guide {
-    background: rgba(200,131,58,0.06);
-    border: 1px solid rgba(200,131,58,0.15);
-    border-left: 3px solid var(--amber-dim);
-    padding: 2rem 2.5rem;
-    margin-top: 4rem;
-  }
-
-  .photo-guide h4 {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1rem;
-  }
-
-  .photo-guide p, .photo-guide li {
-    font-size: 0.9rem;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-
-  .photo-guide code {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    background: rgba(200,131,58,0.1);
-    padding: 0.1em 0.4em;
-    color: var(--amber);
-    border-radius: 2px;
-  }
-
-  .photo-guide ol { padding-left: 1.2rem; margin-top: 0.5rem; }
-  .photo-guide li { margin-bottom: 0.4rem; }
-
-  /* CATEGORIES */
-  #categories {
-    background: var(--deep);
-  }
-
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1px;
-    margin-top: 3rem;
-    border: 1px solid rgba(200,131,58,0.1);
-  }
-
-  .cat-item {
-    padding: 2.5rem 1.5rem;
-    background: var(--charcoal);
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cat-item::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--amber);
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-  }
-
-  .cat-item:hover { background: var(--warm-dark); }
-  .cat-item:hover::before { transform: scaleX(1); }
-
-  .cat-icon {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
-  }
-
-  .cat-name {
-    font-family: var(--font-display);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--warm-white);
-    margin-bottom: 0.5rem;
-  }
-
-  .cat-count {
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--amber-dim);
-  }
-
-  .cat-item.active { background: var(--warm-dark); }
-  .cat-item.active::before { transform: scaleX(1); }
-
-  /* FEATURED CAROUSEL - HIDDEN */
-  .featured-carousel {
-    display: none;
-  }
-
-  .carousel-nav {
-    display: none;
-  }
-
-  .carousel-dot {
-    display: none;
-  }
-
-  /* CONTACT */
-  #contact {
-    background: var(--black);
-    text-align: center;
-    padding: 10rem 4rem;
-  }
-
-  .contact-inner { max-width: 600px; margin: 0 auto; }
-
-  .contact-inner .section-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    margin-bottom: 1.5rem;
-  }
-
-  .contact-sub {
-    font-size: 1.1rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 3.5rem;
-  }
-
-  .contact-links {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 1rem 2.5rem;
-    border: 1px solid;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .btn-primary {
-    background: var(--amber);
-    color: var(--black);
-    border-color: var(--amber);
-  }
-
-  .btn-primary:hover {
-    background: transparent;
-    color: var(--amber);
-  }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--muted);
-    border-color: rgba(200,131,58,0.3);
-  }
-
-  .btn-outline:hover {
-    color: var(--warm-white);
-    border-color: var(--warm-white);
-  }
-
-  /* FOOTER */
-  footer {
-    padding: 3rem 4rem;
-    background: var(--deep);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(200,131,58,0.1);
-  }
-
-  .footer-left {
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    font-style: italic;
-    color: var(--muted);
-  }
-
-  .footer-right {
-    font-family: var(--font-mono);
-    font-size: 0.5rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--amber-dim);
-  }
-
-  /* LIGHTBOX */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(10,8,6,0.96);
-    z-index: 3000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-  }
-
-  .lightbox.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: 2rem; right: 3rem;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-    cursor: pointer;
-    background: none;
-    border: none;
-    transition: color 0.3s;
-  }
-  .lightbox-close:hover { color: var(--warm-white); }
-
-  .lightbox-img {
-    max-width: 95vw;
-    max-height: 95vh;
-    object-fit: cover;
-    filter: brightness(0.9) contrast(1.05) sepia(0.1);
-  }
-
-  /* CATEGORY MODAL */
-  .category-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(10,8,6,0.98);
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .category-modal.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal-header {
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(200,131,58,0.1);
-  }
-
-  .modal-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 200;
-    color: var(--cream);
-    text-transform: capitalize;
-  }
-
-  .modal-close {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s;
-    padding: 0;
-  }
-
-  .modal-close:hover { color: var(--warm-white); }
-
-  .modal-gallery {
-    flex: 1;
-    overflow-y: auto;
-    padding: 0;
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-
-  @keyframes riseIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    nav { padding: 1.5rem 2rem; }
-    .nav-links { gap: 1.5rem; }
-    section { padding: 5rem 2rem; }
-    .hero { padding: 0 2rem 3rem; }
-    .featured-carousel { display: none; }
-    #about { grid-template-columns: 1fr; gap: 3rem; }
-    .gallery-grid {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: unset;
-      gap: 4px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>losingfocuslately — Harsh Jaishanker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&family=Nunito:ital,wght@0,300;1,300&family=Space+Mono&display=swap"
+    rel="stylesheet">
+  <style>
+    /* Fallback font stack — Century Gothic is a system font on Windows/Mac */
+    :root {
+      --font-display: 'Jost', 'Century Gothic', 'Futura', 'Trebuchet MS', sans-serif;
+      --font-body: 'Nunito', 'Century Gothic', 'Gill Sans', 'Trebuchet MS', sans-serif;
+      --font-mono: 'Space Mono', 'Courier New', monospace;
     }
-    .gallery-item { grid-column: unset !important; grid-row: unset !important; height: 220px; }
-    .categories-grid { grid-template-columns: repeat(2, 1fr); }
-    .cat-item:last-child { grid-column: 1/-1; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-    .work-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .work-note { text-align: left; }
-  }
-</style>
+  </style>
+  <style>
+    :root {
+      --black: #0a0806;
+      --deep: #100d0a;
+      --charcoal: #1c1814;
+      --warm-dark: #2a211a;
+      --amber: #c8833a;
+      --amber-dim: #8a5a26;
+      --warm-white: #e8ddd0;
+      --cream: #f0e8dc;
+      --muted: #7a6a5a;
+      --grain-opacity: 0.045;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--warm-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: var(--grain-opacity);
+      mix-blend-mode: overlay;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 4rem;
+      background: linear-gradient(to bottom, rgba(10, 8, 6, 0.95) 0%, transparent 100%);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      text-transform: uppercase;
+      text-decoration: none;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.3s forwards;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.6s forwards;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--warm-white);
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 70% 40%, rgba(100, 55, 15, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(60, 35, 10, 0.12) 0%, transparent 60%),
+        linear-gradient(160deg, var(--black) 0%, var(--deep) 50%, #150f0a 100%);
+    }
+
+    .hero-line {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(200, 131, 58, 0.08), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(0px);
+      animation: riseIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 3rem;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 200;
+      line-height: 1;
+      letter-spacing: 0.06em;
+      color: var(--cream);
+      margin-bottom: 2rem;
+    }
+
+    .hero-handle {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 420px;
+      margin-bottom: 4rem;
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+      margin-top: 2rem;
+    }
+
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--amber-dim);
+      transition: width 0.4s ease;
+    }
+
+    .hero-scroll:hover {
+      color: var(--amber);
+    }
+
+    .hero-scroll:hover::before {
+      width: 70px;
+      background: var(--amber);
+    }
+
+    /* DIVIDER */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(200, 131, 58, 0.2), transparent);
+      margin: 0;
+    }
+
+    /* SECTION SHARED */
+    section {
+      padding: 8rem 4rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: var(--amber-dim);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 200;
+      color: var(--cream);
+      line-height: 1.15;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--deep);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text p span {
+      color: var(--warm-white);
+      font-style: italic;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      padding: 3rem;
+      border: 1px solid rgba(200, 131, 58, 0.12);
+      background: rgba(200, 131, 58, 0.03);
+    }
+
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* WORK / GALLERY */
+    #work {
+      background: var(--black);
+    }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .work-note {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--muted);
+      max-width: 240px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    /* MASONRY PLACEHOLDER GRID */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 240px;
+      gap: 6px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--charcoal);
+    }
+
+    .gallery-item:nth-child(1) {
+      grid-column: 1/6;
+      grid-row: 1/3;
+    }
+
+    .gallery-item:nth-child(2) {
+      grid-column: 6/9;
+      grid-row: 1/2;
+    }
+
+    .gallery-item:nth-child(3) {
+      grid-column: 9/13;
+      grid-row: 1/2;
+    }
+
+    .gallery-item:nth-child(4) {
+      grid-column: 6/10;
+      grid-row: 2/4;
+    }
+
+    .gallery-item:nth-child(5) {
+      grid-column: 10/13;
+      grid-row: 2/3;
+    }
+
+    .gallery-item:nth-child(6) {
+      grid-column: 1/5;
+      grid-row: 3/4;
+    }
+
+    .gallery-item:nth-child(7) {
+      grid-column: 5/7;
+      grid-row: 3/4;
+    }
+
+    .gallery-item:nth-child(8) {
+      grid-column: 10/13;
+      grid-row: 3/4;
+    }
+
+    /* placeholder image visual */
+    .gallery-item .placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.18;
+      transition: opacity 0.4s;
+    }
+
+    .placeholder-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--warm-white);
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .placeholder-icon::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--warm-white);
+      border-radius: 50%;
+    }
+
+    .placeholder-text {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm-white);
+    }
+
+    /* optimized images */
+    .gallery-item img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      /* removed expensive filters here for performance */
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+
+    /* Use a simple overlay for darkening instead of filters */
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 8, 6, 0.25);
+      transition: background 0.4s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .gallery-item:hover::after {
+      background: rgba(10, 8, 6, 0.1);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10, 8, 6, 0.7) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      z-index: 2;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-item:hover .placeholder {
+      opacity: 0.05;
+    }
+
+    .overlay-info {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--warm-white);
+      letter-spacing: 0.05em;
+    }
+
+    .gallery-cta {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    /* HOW TO ADD PHOTOS NOTE */
+    .photo-guide {
+      background: rgba(200, 131, 58, 0.06);
+      border: 1px solid rgba(200, 131, 58, 0.15);
+      border-left: 3px solid var(--amber-dim);
+      padding: 2rem 2.5rem;
+      margin-top: 4rem;
+    }
+
+    .photo-guide h4 {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+
+    .photo-guide p,
+    .photo-guide li {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .photo-guide code {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      background: rgba(200, 131, 58, 0.1);
+      padding: 0.1em 0.4em;
+      color: var(--amber);
+      border-radius: 2px;
+    }
+
+    .photo-guide ol {
+      padding-left: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .photo-guide li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* CATEGORIES */
+    #categories {
+      background: var(--deep);
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      margin-top: 3rem;
+      border: 1px solid rgba(200, 131, 58, 0.1);
+    }
+
+    .cat-item {
+      padding: 2.5rem 1.5rem;
+      background: var(--charcoal);
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cat-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--amber);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .cat-item:hover {
+      background: var(--warm-dark);
+    }
+
+    .cat-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .cat-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.7;
+    }
+
+    .cat-name {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm-white);
+      margin-bottom: 0.5rem;
+    }
+
+    .cat-count {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--amber-dim);
+    }
+
+    .cat-item.active {
+      background: var(--warm-dark);
+    }
+
+    .cat-item.active::before {
+      transform: scaleX(1);
+    }
+
+    /* FEATURED CAROUSEL - HIDDEN */
+    .featured-carousel {
+      display: none;
+    }
+
+    .carousel-nav {
+      display: none;
+    }
+
+    .carousel-dot {
+      display: none;
+    }
+
+    /* CONTACT */
+    #contact {
+      background: var(--black);
+      text-align: center;
+      padding: 10rem 4rem;
+    }
+
+    .contact-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-inner .section-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 3.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1.2rem 3rem;
+      border: 1px solid;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: var(--black);
+      border-color: var(--amber);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--amber);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--muted);
+      border-color: rgba(200, 131, 58, 0.3);
+    }
+
+    .btn-outline:hover {
+      color: var(--warm-white);
+      border-color: var(--warm-white);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem 4rem;
+      background: var(--deep);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(200, 131, 58, 0.1);
+    }
+
+    .footer-left {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .footer-right {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+    }
+
+    /* LIGHTBOX OVERHAUL */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 6, 0.98);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      z-index: 10;
+      width: 92%;
+      max-width: 1400px;
+      height: 85vh;
+      display: flex;
+      background: var(--charcoal);
+      box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      transform: scale(0.95) translateY(20px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .lightbox.active .lightbox-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .lightbox-image-side {
+      flex: 1;
+      position: relative;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.5s ease;
+    }
+
+    .lightbox-info-panel {
+      width: 400px;
+      background: var(--warm-dark);
+      border-left: 1px solid rgba(200, 131, 58, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem;
+      position: relative;
+    }
+
+    .lightbox-info-content {
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all 0.7s ease 0.3s;
+    }
+
+    .lightbox.active .lightbox-info-content {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .lightbox-category {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 2rem;
+    }
+
+    .lightbox-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 200;
+      color: var(--cream);
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+    }
+
+    .lightbox-caption {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    .lightbox-meta {
+      margin-top: auto;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(200, 131, 58, 0.1);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--amber-dim);
+    }
+
+    /* NAVIGATION */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.3s;
+      border-radius: 50%;
+    }
+
+    .nav-arrow:hover {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: var(--black);
+    }
+
+    .nav-arrow.prev {
+      left: 30px;
+    }
+
+    .nav-arrow.next {
+      right: 30px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 100;
+      transition: color 0.3s;
+    }
+
+    .lightbox-close:hover {
+      color: var(--warm-white);
+    }
+
+    @media (max-width: 1100px) {
+      .lightbox-content {
+        flex-direction: column;
+        height: 90vh;
+        width: 95%;
+      }
+
+      .lightbox-info-panel {
+        width: 100%;
+        height: auto;
+        padding: 2.5rem;
+        border-left: none;
+        border-top: 1px solid rgba(200, 131, 58, 0.1);
+      }
+
+      .lightbox-title {
+        font-size: 1.8rem;
+      }
+
+      .nav-arrow {
+        width: 45px;
+        height: 45px;
+      }
+
+      .nav-arrow.prev {
+        left: 15px;
+      }
+
+      .nav-arrow.next {
+        right: 15px;
+      }
+    }
+
+    /* CATEGORY MODAL */
+    .category-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 8, 6, 0.98);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .category-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(200, 131, 58, 0.1);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 200;
+      color: var(--cream);
+      text-transform: capitalize;
+    }
+
+    .modal-close {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.3s;
+      padding: 0;
+    }
+
+    .modal-close:hover {
+      color: var(--warm-white);
+    }
+
+    .modal-gallery {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes riseIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav {
+        padding: 1.5rem 2rem;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+      }
+
+      section {
+        padding: 5rem 2rem;
+      }
+
+      .hero {
+        padding: 0 2rem 3rem;
+      }
+
+      .featured-carousel {
+        display: none;
+      }
+
+      #about {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: unset;
+        gap: 4px;
+      }
+
+      .gallery-item {
+        grid-column: unset !important;
+        grid-row: unset !important;
+        height: 220px;
+      }
+
+      .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cat-item:last-child {
+        grid-column: 1/-1;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .work-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .work-note {
+        text-align: left;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#hero">â–² Harsh Jaishanker</a>
-  <ul class="nav-links">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#categories">Series</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#hero">â–² Harsh Jaishanker</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#categories">Series</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-line"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Photography Portfolio</div>
-    <h1 class="hero-name">Harsh<br>Jaishanker</h1>
-    <p class="hero-desc">Street, portrait, landscape, architecture — found in the spaces between things. Chennai-based.</p>
-    <a href="#work" class="hero-scroll">View Work</a>
-  </div>
-</section>
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-line"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Photography Portfolio</div>
+      <h1 class="hero-name">Harsh<br>Jaishanker</h1>
+      <p class="hero-desc">Street, portrait, landscape, architecture — found in the spaces between things.
+        Chennai-based.</p>
+      <a href="#work" class="hero-scroll">View Work</a>
+    </div>
+  </section>
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
-<!-- WORK -->
-<section id="work">
-  <div class="work-header reveal">
-    <div>
-      <div class="section-label">Portfolio</div>
-      <h2 class="section-title">Featured</h2>
+  <!-- WORK -->
+  <section id="work">
+    <div class="work-header reveal">
+      <div>
+        <div class="section-label">Portfolio</div>
+        <h2 class="section-title">Featured</h2>
+      </div>
+    </div>
+
+    <div class="gallery-grid reveal" id="featured-gallery">
+      <!-- Featured images will load here -->
+    </div>
+
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-text reveal">
+      <div class="section-label">About</div>
+      <h2 class="section-title">The Eye<br>Behind the Lens</h2>
+      <p>
+        My name is <span>Harsh Jaishanker</span>. Photography, for me, is
+        less about sharp capture and more about <span>what slips through</span>.
+      </p>
+      <p>
+        I move between street, portrait, landscape, and architecture — not as genres,
+        but as excuses to stay present in a place a little longer than I should.
+      </p>
+      <p>
+        Based in <span>Chennai</span>. Still learning. Always noticing.
+      </p>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-item">
+        <div class="stat-num">âˆž</div>
+        <div class="stat-label">Frames Shot</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Subjects</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-label">City (for now)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∅</div>
+        <div class="stat-label">Rules Followed</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SERIES / CATEGORIES -->
+  <section id="categories">
+    <div class="reveal">
+      <div class="section-label">Browse</div>
+      <h2 class="section-title">By Series</h2>
+    </div>
+    <div class="categories-grid reveal" id="categories-grid">
+      <div class="cat-item" data-category="all" onclick="filterGallery('all', this)">
+        <div class="cat-icon">★</div>
+        <div class="cat-name">All</div>
+        <div class="cat-count" id="count-all">0</div>
+      </div>
+      <div class="cat-item" data-category="street" onclick="filterGallery('street', this)">
+        <div class="cat-icon">◈</div>
+        <div class="cat-name">Street</div>
+        <div class="cat-count" id="count-street">0</div>
+      </div>
+      <div class="cat-item" data-category="portrait" onclick="filterGallery('portrait', this)">
+        <div class="cat-icon">◉</div>
+        <div class="cat-name">Portrait</div>
+        <div class="cat-count" id="count-portrait">0</div>
+      </div>
+      <div class="cat-item" data-category="landscape" onclick="filterGallery('landscape', this)">
+        <div class="cat-icon">◌</div>
+        <div class="cat-name">Landscape</div>
+        <div class="cat-count" id="count-landscape">0</div>
+      </div>
+      <div class="cat-item" data-category="architecture" onclick="filterGallery('architecture', this)">
+        <div class="cat-icon">▣</div>
+        <div class="cat-name">Architecture</div>
+        <div class="cat-count" id="count-architecture">0</div>
+      </div>
+      <div class="cat-item" data-category="abstract" onclick="filterGallery('abstract', this)">
+        <div class="cat-icon">◫</div>
+        <div class="cat-name">Abstract</div>
+        <div class="cat-count" id="count-abstract">0</div>
+      </div>
+      <div class="cat-item" data-category="wildlife" onclick="filterGallery('wildlife', this)">
+        <div class="cat-icon">ðŸ¦ </div>
+        <div class="cat-name">Wildlife</div>
+        <div class="cat-count" id="count-wildlife">0</div>
+      </div>
+      <div class="cat-item" data-category="experimental" onclick="filterGallery('experimental', this)">
+        <div class="cat-icon">✧</div>
+        <div class="cat-name">Creative Zone</div>
+        <div class="cat-count" id="count-experimental">0</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner reveal">
+      <div class="section-label" style="justify-content:center;">Contact</div>
+      <h2 class="section-title">Let's Talk<br><em>Photography</em></h2>
+      <p class="contact-sub">
+        Open to collaborations, conversations, and commissions.
+        If something in this work resonates — reach out.
+      </p>
+      <form action="https://formspree.io/f/xdappbqz" method="POST" style="max-width: 400px; margin: 2rem auto;">
+        <input type="email" name="email" placeholder="Your email" required
+          style="padding: 0.8rem; width: 100%; margin-bottom: 1rem; background: rgba(200,131,58,0.1); border: 1px solid var(--amber); color: var(--warm-white); font-family: var(--font-body); box-sizing: border-box;">
+        <textarea name="message" placeholder="Your message" required
+          style="padding: 0.8rem; width: 100%; height: 120px; margin-bottom: 1rem; background: rgba(200,131,58,0.1); border: 1px solid var(--amber); color: var(--warm-white); font-family: var(--font-body); resize: none; box-sizing: border-box;"></textarea>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">âœ¦ Send
+          Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">Â© 2025 Harsh Jaishanker · losingfocuslately</div>
+    <div class="footer-right">Chennai · Photography</div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-overlay" onclick="closeLightbox()"></div>
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+
+    <div class="lightbox-content">
+      <div class="lightbox-image-side">
+        <button class="nav-arrow prev" onclick="prevImage(event)">←</button>
+        <img class="lightbox-img" src="" alt="" id="lightbox-img">
+        <button class="nav-arrow next" onclick="nextImage(event)">→</button>
+      </div>
+
+      <div class="lightbox-info-panel" id="lightbox-info">
+        <div class="lightbox-info-content">
+          <div class="lightbox-category" id="lightbox-cat">CATEGORY</div>
+          <h2 class="lightbox-title" id="lightbox-title">Photo Title</h2>
+          <p class="lightbox-caption" id="lightbox-caption">Caption text goes here.</p>
+          <div class="lightbox-meta">
+            <span class="lightbox-date" id="lightbox-date">2025-04-06</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="gallery-grid reveal" id="featured-gallery">
-    <!-- Featured images will load here -->
-  </div>
-
-  <!-- HOW TO ADD PHOTOS -->
-  <div class="photo-guide reveal">
-    <h4>âœ¦ How to add your photos</h4>
-    <p>Images are managed via <code>data.json</code>. To add a new photo:</p>
-    <ol>
-      <li>Create a folder called <code>photos/</code> next to your <code>index.html</code></li>
-      <li>Place your images in it (JPG/WebP recommended, under 1MB each)</li>
-      <li>Open <code>data.json</code> and add an entry to the <code>images</code> array:</li>
-    </ol>
-    <p style="background: rgba(200,131,58,0.05); padding: 1rem; border-radius: 4px; margin-top: 1rem; font-family: var(--font-mono); font-size: 0.8rem; overflow-x: auto;">
-{
-  "id": 9,
-  "src": "photos/street_03.jpg",
-  "title": "My Photo Title",
-  "caption": "Street, Chennai",
-  "category": "street",
-  "date": "2025-04-05",
-  "featured": false
-}
-    </p>
-    <p style="margin-top: 1rem;"><strong>Categories:</strong> street, portrait, landscape, architecture, mixed</p>
-    <p><strong>Latest first:</strong> Images are auto-sorted by date (newest on top)</p>
-    <p><strong>Featured carousel:</strong> Set <code>"featured": true</code> for images to appear in hero carousel</p>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-text reveal">
-    <div class="section-label">About</div>
-    <h2 class="section-title">The Eye<br>Behind the Lens</h2>
-    <p>
-      My name is <span>Harsh Jaishanker</span>. Photography, for me, is
-      less about sharp capture and more about <span>what slips through</span>.
-    </p>
-    <p>
-      I move between street, portrait, landscape, and architecture — not as genres,
-      but as excuses to stay present in a place a little longer than I should.
-    </p>
-    <p>
-      Based in <span>Chennai</span>. Still learning. Always noticing.
-    </p>
-  </div>
-  <div class="about-stats reveal">
-    <div class="stat-item">
-      <div class="stat-num">âˆž</div>
-      <div class="stat-label">Frames Shot</div>
+  <!-- CATEGORY MODAL -->
+  <div class="category-modal" id="category-modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-category-title">All</h2>
+      <button class="modal-close" onclick="closeModal()">ESC · Close</button>
     </div>
-    <div class="stat-item">
-      <div class="stat-num">5</div>
-      <div class="stat-label">Subjects</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">1</div>
-      <div class="stat-label">City (for now)</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">∅</div>
-      <div class="stat-label">Rules Followed</div>
+    <div class="modal-gallery" onclick="if(event.target === this) closeModal()">
+      <div class="gallery-grid" id="modal-gallery-grid"></div>
     </div>
   </div>
-</section>
 
-<div class="divider"></div>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script src="data.js"></script>
+  <script>
+    let allImages = [];
+    let currentFilter = 'all';
+    let currentCarouselIndex = 0;
+    // 8-item pattern tiling every 3 rows across all 12 columns — no gaps, no buried photos.
+    // Max row span is 2 (items 1 & 4), meaning a tall photo = 2 * row height, always fully visible.
+    // Cycle height = 3 rows, shift multiplier = 3.
+    const gridPositions = [
+      { col: '1/6', row: '1/3' },  // tall left (spans 2 rows)
+      { col: '6/9', row: '1/2' },  // top mid-left
+      { col: '9/13', row: '1/2' },  // top mid-right
+      { col: '6/10', row: '2/3' },  // mid (1 row, was 2/4 before — that caused the overlap)
+      { col: '10/13', row: '2/3' },  // mid right
+      { col: '1/5', row: '3/4' },  // bottom left
+      { col: '5/7', row: '3/4' },  // bottom mid-left
+      { col: '7/13', row: '3/4' },  // bottom right (wider to fill gap left by item 4 shrinking)
+    ];
 
-<!-- SERIES / CATEGORIES -->
-<section id="categories">
-  <div class="reveal">
-    <div class="section-label">Browse</div>
-    <h2 class="section-title">By Series</h2>
-  </div>
-  <div class="categories-grid reveal" id="categories-grid">
-    <div class="cat-item" data-category="all" onclick="filterGallery('all', this)">
-      <div class="cat-icon">★</div>
-      <div class="cat-name">All</div>
-      <div class="cat-count" id="count-all">0</div>
-    </div>
-    <div class="cat-item" data-category="street" onclick="filterGallery('street', this)">
-      <div class="cat-icon">◈</div>
-      <div class="cat-name">Street</div>
-      <div class="cat-count" id="count-street">0</div>
-    </div>
-    <div class="cat-item" data-category="portrait" onclick="filterGallery('portrait', this)">
-      <div class="cat-icon">◉</div>
-      <div class="cat-name">Portrait</div>
-      <div class="cat-count" id="count-portrait">0</div>
-    </div>
-    <div class="cat-item" data-category="landscape" onclick="filterGallery('landscape', this)">
-      <div class="cat-icon">◌</div>
-      <div class="cat-name">Landscape</div>
-      <div class="cat-count" id="count-landscape">0</div>
-    </div>
-    <div class="cat-item" data-category="architecture" onclick="filterGallery('architecture', this)">
-      <div class="cat-icon">▣</div>
-      <div class="cat-name">Architecture</div>
-      <div class="cat-count" id="count-architecture">0</div>
-    </div>
-    <div class="cat-item" data-category="mixed" onclick="filterGallery('mixed', this)">
-      <div class="cat-icon">◫</div>
-      <div class="cat-name">Mixed</div>
-      <div class="cat-count" id="count-mixed">0</div>
-    </div>
-    <div class="cat-item" data-category="wildlife" onclick="filterGallery('wildlife', this)">
-      <div class="cat-icon">ðŸ¦</div>
-      <div class="cat-name">Wildlife</div>
-      <div class="cat-count" id="count-wildlife">0</div>
-    </div>
-  </div>
-</section>
+    function initImages() {
+      if (typeof imageData !== 'undefined') {
+        allImages = imageData.images.sort((a, b) => new Date(b.date) - new Date(a.date));
+        renderFeaturedGallery();
+        updateCategoryCounts();
+      } else {
+        console.error('imageData not found. Make sure data.js is loaded correctly.');
+      }
+    }
 
-<div class="divider"></div>
+    let lightboxImages = [];
+    let currentIndex = 0;
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="contact-inner reveal">
-    <div class="section-label" style="justify-content:center;">Contact</div>
-    <h2 class="section-title">Let's Talk<br><em>Photography</em></h2>
-    <p class="contact-sub">
-      Open to collaborations, conversations, and commissions.
-      If something in this work resonates — reach out.
-    </p>
-    <form action="https://formspree.io/f/xdappbqz" method="POST" style="max-width: 400px; margin: 2rem auto;">
-      <input type="email" name="email" placeholder="Your email" required style="padding: 0.8rem; width: 100%; margin-bottom: 1rem; background: rgba(200,131,58,0.1); border: 1px solid var(--amber); color: var(--warm-white); font-family: var(--font-body); box-sizing: border-box;">
-      <textarea name="message" placeholder="Your message" required style="padding: 0.8rem; width: 100%; height: 120px; margin-bottom: 1rem; background: rgba(200,131,58,0.1); border: 1px solid var(--amber); color: var(--warm-white); font-family: var(--font-body); resize: none; box-sizing: border-box;"></textarea>
-      <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">âœ¦ Send Message</button>
-    </form>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-left">Â© 2025 Harsh Jaishanker · losingfocuslately</div>
-  <div class="footer-right">Chennai · Photography</div>
-</footer>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">ESC · Close</button>
-  <img class="lightbox-img" src="" alt="" id="lightbox-img">
-</div>
-
-<!-- CATEGORY MODAL -->
-<div class="category-modal" id="category-modal">
-  <div class="modal-header">
-    <h2 class="modal-title" id="modal-category-title">All</h2>
-    <button class="modal-close" onclick="closeModal()">ESC · Close</button>
-  </div>
-  <div class="modal-gallery" onclick="if(event.target === this) closeModal()">
-    <div class="gallery-grid" id="modal-gallery-grid"></div>
-  </div>
-</div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  let allImages = [];
-  let currentFilter = 'all';
-  let currentCarouselIndex = 0;
-  // 8-item pattern tiling every 3 rows across all 12 columns — no gaps, no buried photos.
-  // Max row span is 2 (items 1 & 4), meaning a tall photo = 2 * row height, always fully visible.
-  // Cycle height = 3 rows, shift multiplier = 3.
-  const gridPositions = [
-    { col: '1/6',  row: '1/3' },  // tall left (spans 2 rows)
-    { col: '6/9',  row: '1/2' },  // top mid-left
-    { col: '9/13', row: '1/2' },  // top mid-right
-    { col: '6/10', row: '2/3' },  // mid (1 row, was 2/4 before — that caused the overlap)
-    { col: '10/13',row: '2/3' },  // mid right
-    { col: '1/5',  row: '3/4' },  // bottom left
-    { col: '5/7',  row: '3/4' },  // bottom mid-left
-    { col: '7/13', row: '3/4' },  // bottom right (wider to fill gap left by item 4 shrinking)
-  ];
-
-  const imageData = {"images":[{"id":1,"src":"photos/1.jpg","title":"Photo 1","caption":"Random caption for photo 1","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":2,"src":"photos/2.jpg","title":"Photo 2","caption":"Random caption for photo 2","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":3,"src":"photos/3.jpg","title":"Photo 3","caption":"Random caption for photo 3","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":4,"src":"photos/4.jpg","title":"Photo 4","caption":"Random caption for photo 4","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":5,"src":"photos/5.jpg","title":"Photo 5","caption":"Random caption for photo 5","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":6,"src":"photos/6.jpg","title":"Photo 6","caption":"Random caption for photo 6","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":7,"src":"photos/7.jpg","title":"Photo 7","caption":"Random caption for photo 7","categories":["mixed"],"date":"2025-04-06","featured":true},{"id":8,"src":"photos/8.jpg","title":"Photo 8","caption":"Random caption for photo 8","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":9,"src":"photos/9.jpg","title":"Photo 9","caption":"Random caption for photo 9","categories":["mixed"],"date":"2025-04-06","featured":false},{"id":10,"src":"photos/10.jpg","title":"Photo 10","caption":"Random caption for photo 10","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":11,"src":"photos/11.jpg","title":"Photo 11","caption":"Random caption for photo 11","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":12,"src":"photos/12.jpeg","title":"Photo 12","caption":"Random caption for photo 12","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":13,"src":"photos/13.jpeg","title":"Photo 13","caption":"Random caption for photo 13","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":14,"src":"photos/14.jpeg","title":"Photo 14","caption":"Random caption for photo 14","categories":["mixed"],"date":"2025-04-06","featured":false},{"id":15,"src":"photos/15.jpg","title":"Photo 15","caption":"Random caption for photo 15","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":16,"src":"photos/16.jpg","title":"Photo 16","caption":"Random caption for photo 16","categories":["street"],"date":"2025-04-06","featured":false},{"id":17,"src":"photos/17.jpg","title":"Photo 17","caption":"Random caption for photo 17","categories":["street"],"date":"2025-04-06","featured":false},{"id":18,"src":"photos/18.jpg","title":"Photo 18","caption":"Random caption for photo 18","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":19,"src":"photos/19.jpg","title":"Photo 19","caption":"Random caption for photo 19","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":20,"src":"photos/20.jpg","title":"Photo 20","caption":"Random caption for photo 20","categories":["wildlife"],"date":"2025-04-06","featured":true},{"id":21,"src":"photos/21.jpeg","title":"Photo 21","caption":"Random caption for photo 21","categories":["landscape"],"date":"2025-04-06","featured":true},{"id":22,"src":"photos/22.jpg","title":"Photo 22","caption":"Random caption for photo 22","categories":["street"],"date":"2025-04-06","featured":false},{"id":23,"src":"photos/23.jpg","title":"Photo 23","caption":"Random caption for photo 23","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":24,"src":"photos/24.jpg","title":"Photo 24","caption":"Random caption for photo 24","categories":["street"],"date":"2025-04-06","featured":true},{"id":25,"src":"photos/25.jpg","title":"Photo 25","caption":"Random caption for photo 25","categories":["mixed"],"date":"2025-04-06","featured":false},{"id":26,"src":"photos/26.jpeg","title":"Photo 26","caption":"Random caption for photo 26","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":27,"src":"photos/27.jpg","title":"Photo 27","caption":"Random caption for photo 27","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":28,"src":"photos/28.jpg","title":"Photo 28","caption":"Random caption for photo 28","categories":["portrait"],"date":"2025-04-06","featured":true},{"id":29,"src":"photos/29.jpg","title":"Photo 29","caption":"Random caption for photo 29","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":30,"src":"photos/30.jpg","title":"Photo 30","caption":"Random caption for photo 30","categories":["street"],"date":"2025-04-06","featured":false},{"id":31,"src":"photos/31.jpg","title":"Photo 31","caption":"Random caption for photo 31","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":32,"src":"photos/32.jpg","title":"Photo 32","caption":"Random caption for photo 32","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":33,"src":"photos/33.jpg","title":"Photo 33","caption":"Random caption for photo 33","categories":["street"],"date":"2025-04-06","featured":false},{"id":34,"src":"photos/34.jpg","title":"Photo 34","caption":"Random caption for photo 34","categories":["street"],"date":"2025-04-06","featured":false},{"id":35,"src":"photos/35.jpg","title":"Photo 35","caption":"Random caption for photo 35","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":36,"src":"photos/36.jpg","title":"Photo 36","caption":"Random caption for photo 36","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":37,"src":"photos/37.jpg","title":"Photo 37","caption":"Random caption for photo 37","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":38,"src":"photos/38.jpg","title":"Photo 38","caption":"Random caption for photo 38","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":39,"src":"photos/39.jpg","title":"Photo 39","caption":"Random caption for photo 39","categories":["street"],"date":"2025-04-06","featured":true},{"id":40,"src":"photos/40.jpg","title":"Photo 40","caption":"Random caption for photo 40","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":41,"src":"photos/41.jpg","title":"Photo 41","caption":"Random caption for photo 41","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":42,"src":"photos/42.jpg","title":"Photo 42","caption":"Random caption for photo 42","categories":["portrait"],"date":"2025-04-06","featured":true},{"id":43,"src":"photos/43.jpg","title":"Photo 43","caption":"Random caption for photo 43","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":44,"src":"photos/44.jpg","title":"Photo 44","caption":"Random caption for photo 44","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":45,"src":"photos/45.jpg","title":"Photo 45","caption":"Random caption for photo 45","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":46,"src":"photos/46.jpeg","title":"Photo 46","caption":"Random caption for photo 46","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":47,"src":"photos/47.jpg","title":"Photo 47","caption":"Random caption for photo 47","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":48,"src":"photos/48.jpg","title":"Photo 48","caption":"Random caption for photo 48","categories":["street"],"date":"2025-04-06","featured":true},{"id":49,"src":"photos/49.jpeg","title":"Photo 49","caption":"Random caption for photo 49","categories":["street"],"date":"2025-04-06","featured":false},{"id":50,"src":"photos/50.jpeg","title":"Photo 50","caption":"Random caption for photo 50","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":51,"src":"photos/51.jpeg","title":"Photo 51","caption":"Random caption for photo 51","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":52,"src":"photos/52.jpeg","title":"Photo 52","caption":"Random caption for photo 52","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":53,"src":"photos/53.jpg","title":"Photo 53","caption":"Random caption for photo 53","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":54,"src":"photos/54.jpg","title":"Photo 54","caption":"Random caption for photo 54","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":55,"src":"photos/55.jpg","title":"Photo 55","caption":"Random caption for photo 55","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":56,"src":"photos/56.jpg","title":"Photo 56","caption":"Random caption for photo 56","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":57,"src":"photos/57.jpg","title":"Photo 57","caption":"Random caption for photo 57","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":58,"src":"photos/58.jpg","title":"Photo 58","caption":"Random caption for photo 58","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":59,"src":"photos/59.jpg","title":"Photo 59","caption":"Random caption for photo 59","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":60,"src":"photos/60.jpg","title":"Photo 60","caption":"Random caption for photo 60","categories":["landscape"],"date":"2025-04-06","featured":true},{"id":61,"src":"photos/61.jpg","title":"Photo 61","caption":"Random caption for photo 61","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":62,"src":"photos/62.jpg","title":"Photo 62","caption":"Random caption for photo 62","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":63,"src":"photos/63.jpg","title":"Photo 63","caption":"Random caption for photo 63","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":64,"src":"photos/64.jpg","title":"Photo 64","caption":"Random caption for photo 64","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":65,"src":"photos/65.jpg","title":"Photo 65","caption":"Random caption for photo 65","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":66,"src":"photos/66.jpg","title":"Photo 66","caption":"Random caption for photo 66","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":67,"src":"photos/67.jpeg","title":"Photo 67","caption":"Random caption for photo 67","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":68,"src":"photos/68.jpg","title":"Photo 68","caption":"Random caption for photo 68","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":69,"src":"photos/69.jpeg","title":"Photo 69","caption":"Random caption for photo 69","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":70,"src":"photos/70.jpg","title":"Photo 70","caption":"Random caption for photo 70","categories":["mixed"],"date":"2025-04-06","featured":false},{"id":71,"src":"photos/71.jpg","title":"Photo 71","caption":"Random caption for photo 71","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":72,"src":"photos/72.jpg","title":"Photo 72","caption":"Random caption for photo 72","categories":["street"],"date":"2025-04-06","featured":false},{"id":73,"src":"photos/73.jpg","title":"Photo 73","caption":"Random caption for photo 73","categories":["portrait"],"date":"2025-04-06","featured":false},{"id":74,"src":"photos/74.jpg","title":"Photo 74","caption":"Random caption for photo 74","categories":["mixed"],"date":"2025-04-06","featured":false},{"id":75,"src":"photos/75.jpeg","title":"Photo 75","caption":"Random caption for photo 75","categories":["portrait"],"date":"2025-04-06","featured":true},{"id":76,"src":"photos/76.jpeg","title":"Photo 76","caption":"Random caption for photo 76","categories":["street"],"date":"2025-04-06","featured":false},{"id":77,"src":"photos/77.jpg","title":"Photo 77","caption":"Random caption for photo 77","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":78,"src":"photos/78.jpg","title":"Photo 78","caption":"Random caption for photo 78","categories":["mixed"],"date":"2025-04-06","featured":false},{"id":79,"src":"photos/79.jpeg","title":"Photo 79","caption":"Random caption for photo 79","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":80,"src":"photos/80.jpeg","title":"Photo 80","caption":"Random caption for photo 80","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":81,"src":"photos/81.jpg","title":"Photo 81","caption":"Random caption for photo 81","categories":["street"],"date":"2025-04-06","featured":false},{"id":82,"src":"photos/82.jpg","title":"Photo 82","caption":"Random caption for photo 82","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":83,"src":"photos/83.jpg","title":"Photo 83","caption":"Random caption for photo 83","categories":["wildlife"],"date":"2025-04-06","featured":false},{"id":84,"src":"photos/84.jpg","title":"Photo 84","caption":"Random caption for photo 84","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":85,"src":"photos/85.jpg","title":"Photo 85","caption":"Random caption for photo 85","categories":["architecture"],"date":"2025-04-06","featured":false},{"id":86,"src":"photos/86.jpg","title":"Photo 86","caption":"Random caption for photo 86","categories":["street"],"date":"2025-04-06","featured":false},{"id":87,"src":"photos/87.jpg","title":"Photo 87","caption":"Random caption for photo 87","categories":["landscape"],"date":"2025-04-06","featured":false},{"id":88,"src":"photos/88.jpg","title":"Photo 88","caption":"Random caption for photo 88","categories":["wildlife"],"date":"2025-04-06","featured":false}]};
-
-  // Shared item builder
-  function buildItem(img, index, col, row) {
-    const item = document.createElement('div');
-    item.className = 'gallery-item';
-    if (col) item.style.gridColumn = col;
-    if (row) item.style.gridRow = row;
-    item.onclick = () => openLightbox(img);
-    item.innerHTML = `
-      <img src="${img.src}" alt="${img.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.82) contrast(1.05) sepia(0.15);transition:transform 0.7s cubic-bezier(0.16,1,0.3,1),filter 0.5s ease;">
+    // Shared item builder
+    function buildItem(img, index, col, row, currentList) {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      if (col) item.style.gridColumn = col;
+      if (row) item.style.gridRow = row;
+      item.onclick = () => openLightbox(index, currentList);
+      item.innerHTML = `
+      <img src="${img.src}" alt="${img.title}" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform;transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);">
       <div class="gallery-overlay">
         <div class="overlay-info">
-          <div style="font-family:var(--font-mono);font-size:0.42rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;">${(Array.isArray(img.categories) ? img.categories : [img.category]).join(' · ')}</div>
-          <div style="font-weight:300;font-size:0.95rem;">${img.title}</div>
-          <div style="font-size:0.72rem;opacity:0.55;margin-top:3px;">${img.caption}</div>
+          <div style="font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;">${(Array.isArray(img.categories) ? img.categories : [img.category]).join(' · ')}</div>
+          <div style="font-weight:300;font-size:1.1rem;">${img.title}</div>
+          <div style="font-size:0.9rem;opacity:0.55;margin-top:3px;">${img.caption}</div>
         </div>
       </div>
     `;
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(20px)';
-    item.style.transition = `opacity 0.7s ease ${index * 0.08}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 0.08}s`;
-    setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, 10);
-    return item;
-  }
-
-  function initImages() {
-    allImages = imageData.images.sort((a, b) => new Date(b.date) - new Date(a.date));
-    renderFeaturedGallery();
-    updateCategoryCounts();
-  }
-
-  function renderFeaturedGallery() {
-    const featured = allImages.filter(img => img.featured);
-    const gallery = document.getElementById('featured-gallery');
-    gallery.innerHTML = '';
-    featured.forEach((img, index) => {
-      const pos = gridPositions[index % gridPositions.length];
-      let origR = pos.row.split('/');
-      let shift = Math.floor(index / gridPositions.length) * 3;
-      let newRow = (parseInt(origR[0]) + shift) + '/' + (parseInt(origR[1]) + shift);
-      gallery.appendChild(buildItem(img, index, pos.col, newRow));
-    });
-  }
-
-  function renderGallery() {
-    const filtered = currentFilter === 'all' ? allImages : allImages.filter(img => {
-      const imgCategories = Array.isArray(img.categories) ? img.categories : [img.category];
-      return imgCategories.includes(currentFilter);
-    });
-    const gallery = document.getElementById('gallery-grid');
-    gallery.innerHTML = '';
-    filtered.forEach((img, index) => {
-      const pos = gridPositions[index % gridPositions.length];
-      let origR = pos.row.split('/');
-      let shift = Math.floor(index / gridPositions.length) * 3;
-      let newRow = (parseInt(origR[0]) + shift) + '/' + (parseInt(origR[1]) + shift);
-      gallery.appendChild(buildItem(img, index, pos.col, newRow));
-    });
-  }
-
-  function filterGallery(category, element) {
-    currentFilter = category;
-    document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
-    openCategoryModal(category);
-  }
-
-  function openCategoryModal(category) {
-    const filtered = category === 'all' ? allImages : allImages.filter(img => {
-      const imgCategories = Array.isArray(img.categories) ? img.categories : [img.category];
-      return imgCategories.includes(category);
-    });
-    const modalGrid = document.getElementById('modal-gallery-grid');
-    modalGrid.innerHTML = '';
-    filtered.forEach((img, index) => {
-      const pos = gridPositions[index % gridPositions.length];
-      let origR = pos.row.split('/');
-      let shift = Math.floor(index / gridPositions.length) * 3;
-      let newRow = (parseInt(origR[0]) + shift) + '/' + (parseInt(origR[1]) + shift);
-      modalGrid.appendChild(buildItem(img, index, pos.col, newRow));
-    });
-    document.getElementById('modal-category-title').textContent = category;
-    document.getElementById('category-modal').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  // Close modal
-  function closeModal() {
-    document.getElementById('category-modal').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  // Close on ESC key
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeLightbox();
-      closeModal();
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(20px)';
+      item.style.transition = `opacity 0.7s ease ${index * 0.08}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 0.08}s`;
+      setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, 10);
+      return item;
     }
-  });
 
-  // Update category counts
-  function updateCategoryCounts() {
-    const categories = ['street', 'portrait', 'landscape', 'architecture', 'mixed', 'wildlife'];
-    const totalCount = allImages.length;
-    document.getElementById('count-all').textContent = totalCount;
-    
-    categories.forEach(cat => {
-      const count = allImages.filter(img => {
+    function renderFeaturedGallery() {
+      const featured = allImages.filter(img => img.featured);
+      const gallery = document.getElementById('featured-gallery');
+      gallery.innerHTML = '';
+      featured.forEach((img, index) => {
+        const pos = gridPositions[index % gridPositions.length];
+        let origR = pos.row.split('/');
+        let shift = Math.floor(index / gridPositions.length) * 3;
+        let newRow = (parseInt(origR[0]) + shift) + '/' + (parseInt(origR[1]) + shift);
+        gallery.appendChild(buildItem(img, index, pos.col, newRow, featured));
+      });
+    }
+
+    function renderGallery() {
+      const filtered = currentFilter === 'all' ? allImages : allImages.filter(img => {
         const imgCategories = Array.isArray(img.categories) ? img.categories : [img.category];
-        return imgCategories.includes(cat);
-      }).length;
-      document.getElementById(`count-${cat}`).textContent = count;
+        return imgCategories.includes(currentFilter);
+      });
+      const gallery = document.getElementById('gallery-grid');
+      gallery.innerHTML = '';
+      filtered.forEach((img, index) => {
+        const pos = gridPositions[index % gridPositions.length];
+        let origR = pos.row.split('/');
+        let shift = Math.floor(index / gridPositions.length) * 3;
+        let newRow = (parseInt(origR[0]) + shift) + '/' + (parseInt(origR[1]) + shift);
+        gallery.appendChild(buildItem(img, index, pos.col, newRow, filtered));
+      });
+    }
+
+    function filterGallery(category, element) {
+      currentFilter = category;
+      document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+      openCategoryModal(category);
+    }
+
+    function openCategoryModal(category) {
+      const filtered = category === 'all' ? allImages : allImages.filter(img => {
+        const imgCategories = Array.isArray(img.categories) ? img.categories : [img.category];
+        return imgCategories.includes(category);
+      });
+      const modalGrid = document.getElementById('modal-gallery-grid');
+      modalGrid.innerHTML = '';
+      filtered.forEach((img, index) => {
+        const pos = gridPositions[index % gridPositions.length];
+        let origR = pos.row.split('/');
+        let shift = Math.floor(index / gridPositions.length) * 3;
+        let newRow = (parseInt(origR[0]) + shift) + '/' + (parseInt(origR[1]) + shift);
+        modalGrid.appendChild(buildItem(img, index, pos.col, newRow, filtered));
+      });
+      document.getElementById('modal-category-title').textContent = category;
+      document.getElementById('category-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('category-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Update category counts
+    function updateCategoryCounts() {
+      const categories = ['street', 'portrait', 'landscape', 'architecture', 'abstract', 'wildlife', 'experimental'];
+      const totalCount = allImages.length;
+      document.getElementById('count-all').textContent = totalCount;
+
+      categories.forEach(cat => {
+        const count = allImages.filter(img => {
+          const imgCategories = Array.isArray(img.categories) ? img.categories : [img.category];
+          return imgCategories.includes(cat);
+        }).length;
+        document.getElementById(`count-${cat}`).textContent = count;
+      });
+    }
+
+    // Lightbox
+    function openLightbox(index, list) {
+      lightboxImages = list;
+      currentIndex = index;
+      updateLightboxContent();
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightboxContent() {
+      const img = lightboxImages[currentIndex];
+      const lightboxImg = document.getElementById('lightbox-img');
+
+      // Animation reset
+      lightboxImg.style.opacity = '0';
+      lightboxImg.style.transform = 'scale(0.98)';
+
+      setTimeout(() => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.title;
+        document.getElementById('lightbox-cat').textContent = (Array.isArray(img.categories) ? img.categories : [img.category]).join(' · ');
+        document.getElementById('lightbox-title').textContent = img.title;
+        document.getElementById('lightbox-caption').textContent = img.caption;
+        document.getElementById('lightbox-date').textContent = img.date;
+
+        lightboxImg.style.opacity = '1';
+        lightboxImg.style.transform = 'scale(1)';
+      }, 100);
+    }
+
+    function nextImage(e) {
+      if (e) e.stopPropagation();
+      currentIndex = (currentIndex + 1) % lightboxImages.length;
+      updateLightboxContent();
+    }
+
+    function prevImage(e) {
+      if (e) e.stopPropagation();
+      currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+      updateLightboxContent();
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Key listeners
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('lightbox').classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
     });
-  }
 
-  // Featured carousel - disabled for now
-  function initFeaturedCarousel() {
-    // Carousel removed from UI
-  }
-
-  // Lightbox
-  function openLightbox(img) {
-    document.getElementById('lightbox-img').src = img.src;
-    document.getElementById('lightbox-img').alt = img.caption;
-    document.getElementById('lightbox').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-  });
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-  reveals.forEach(el => observer.observe(el));
 
-  // Initialize on page load
-  initImages();
-</script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target); // Performance: stop watching once shown
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px 50px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Initialize on page load
+    initImages();
+  </script>
 </body>
-</html>
 
+</html>
