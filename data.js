@@ -132,7 +132,7 @@ const imageData = {
                 "abstract"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 13,
@@ -143,7 +143,7 @@ const imageData = {
                 "experimental"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 14,
@@ -228,10 +228,11 @@ const imageData = {
         {
             "id": 21,
             "src": "photos/21.jpg",
-            "title": "Open Door",
-            "caption": "Random caption for photo 25",
+            "title": "a quiet smile",
+            "caption": "Coimbatore, Tamil Nadu, India",
             "categories": [
-                "portrait"
+                "portrait",
+                "street"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -239,22 +240,22 @@ const imageData = {
         {
             "id": 22,
             "src": "photos/22.jpeg",
-            "title": "First Frame",
-            "caption": "Random caption for photo 26",
+            "title": "Borrowed Height",
+            "caption": "Pattinapakkam Beach, Chennai, Tamil Nadu, India",
             "categories": [
                 "street",
                 "portrait"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 23,
             "src": "photos/23.jpg",
-            "title": "Amber Eye",
-            "caption": "Random caption for photo 27",
+            "title": "Still",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "experimental"
+                "abstract"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -262,8 +263,8 @@ const imageData = {
         {
             "id": 24,
             "src": "photos/24.jpg",
-            "title": "Last Train",
-            "caption": "Random caption for photo 28",
+            "title": "End of the Line",
+            "caption": "Bangalore, Karnataka, India",
             "categories": [
                 "architecture",
                 "street"
@@ -274,8 +275,8 @@ const imageData = {
         {
             "id": 25,
             "src": "photos/25.jpg",
-            "title": "Dawn Shift",
-            "caption": "Random caption for photo 29",
+            "title": "Carrying On",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -284,9 +285,9 @@ const imageData = {
         },
         {
             "id": 26,
-            "src": "photos/26.jpg",
-            "title": "Break Frame",
-            "caption": "Random caption for photo 30",
+            "src": "photos/26.jpeg",
+            "title": "Pulse",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -296,8 +297,8 @@ const imageData = {
         {
             "id": 27,
             "src": "photos/27.jpg",
-            "title": "Small Warmth",
-            "caption": "Random caption for photo 31",
+            "title": "Rest",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -307,8 +308,8 @@ const imageData = {
         {
             "id": 28,
             "src": "photos/28.jpg",
-            "title": "Above Us",
-            "caption": "Random caption for photo 32",
+            "title": "Up Close",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "portrait"
             ],
@@ -318,8 +319,8 @@ const imageData = {
         {
             "id": 29,
             "src": "photos/29.jpg",
-            "title": "Night Stop",
-            "caption": "Random caption for photo 33",
+            "title": "Idle Hours",
+            "caption": "Coimbatore, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -329,10 +330,10 @@ const imageData = {
         {
             "id": 30,
             "src": "photos/30.jpg",
-            "title": "Shy Light",
-            "caption": "Random caption for photo 34",
+            "title": "Half Seen",
+            "caption": "Coimbatore, Tamil Nadu, India",
             "categories": [
-                "portrait"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -340,8 +341,8 @@ const imageData = {
         {
             "id": 31,
             "src": "photos/31.jpg",
-            "title": "Crossing Quiet",
-            "caption": "Random caption for photo 35",
+            "title": "Carrying On",
+            "caption": "Coimbatore, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -351,10 +352,10 @@ const imageData = {
         {
             "id": 32,
             "src": "photos/32.jpg",
-            "title": "Back Court",
-            "caption": "Random caption for photo 36",
+            "title": "At the door",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "architecture"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -362,8 +363,8 @@ const imageData = {
         {
             "id": 33,
             "src": "photos/33.jpg",
-            "title": "Hanging Light",
-            "caption": "Random caption for photo 37",
+            "title": "Among Flowers",
+            "caption": "Coimbatore, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -373,10 +374,10 @@ const imageData = {
         {
             "id": 34,
             "src": "photos/34.jpg",
-            "title": "Evening Lane",
-            "caption": "Random caption for photo 38",
+            "title": "Evening Passage",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "landscape"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -384,10 +385,10 @@ const imageData = {
         {
             "id": 35,
             "src": "photos/35.jpg",
-            "title": "Green Signal",
-            "caption": "Random caption for photo 39",
+            "title": "Signal State",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "architecture"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": true
@@ -395,8 +396,8 @@ const imageData = {
         {
             "id": 36,
             "src": "photos/36.jpg",
-            "title": "Crow Watch",
-            "caption": "Random caption for photo 40",
+            "title": "By the Bins",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -406,10 +407,10 @@ const imageData = {
         {
             "id": 37,
             "src": "photos/37.jpg",
-            "title": "Held Breath",
-            "caption": "Random caption for photo 41",
+            "title": "Unbothered",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "portrait"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -417,10 +418,10 @@ const imageData = {
         {
             "id": 38,
             "src": "photos/38.jpg",
-            "title": "Night Offering",
-            "caption": "Random caption for photo 42",
+            "title": "Carrying Faith",
+            "caption": "Thiruvanaikovil, Tamil Nadu, India",
             "categories": [
-                "experimental"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": true
@@ -428,10 +429,11 @@ const imageData = {
         {
             "id": 39,
             "src": "photos/39.jpg",
-            "title": "Fog Bell",
-            "caption": "Random caption for photo 43",
+            "title": "Through the Haze",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "street"
+                "street",
+                "experimental"
             ],
             "date": "2025-04-06",
             "featured": false
@@ -439,55 +441,56 @@ const imageData = {
         {
             "id": 40,
             "src": "photos/40.jpg",
-            "title": "Perchline",
-            "caption": "Random caption for photo 44",
+            "title": "Hollow Gods",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
+                "street",
                 "abstract"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 41,
             "src": "photos/41.jpg",
-            "title": "Broken Gods",
-            "caption": "Random caption for photo 45",
+            "title": "Toward the Light",
+            "caption": "Srirangam, Tamil Nadu, India",
             "categories": [
-                "experimental"
+                "experimental",
+                "architecture"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 42,
-            "src": "photos/42.jpeg",
-            "title": "Shared Ledge",
-            "caption": "Random caption for photo 46",
+            "src": "photos/42.jpg",
+            "title": "Still in the Rush",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "wildlife"
+                "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 43,
-            "src": "photos/43.jpg",
-            "title": "Inner Gold",
-            "caption": "Random caption for photo 47",
+            "src": "photos/43.jpeg",
+            "title": "Beacon",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "architecture"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 44,
-            "src": "photos/44.jpg",
-            "title": "Passing Heat",
-            "caption": "Random caption for photo 48",
+            "src": "photos/44.jpeg",
+            "title": "Mounted Authority",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "street",
-                "experimental"
+                "street"
             ],
             "date": "2025-04-06",
             "featured": true
@@ -495,88 +498,88 @@ const imageData = {
         {
             "id": 45,
             "src": "photos/45.jpeg",
-            "title": "Signal Tower",
-            "caption": "Random caption for photo 49",
+            "title": "Unseen Velocity",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "architecture"
+                "Street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 46,
             "src": "photos/46.jpeg",
-            "title": "Mounted Watch",
-            "caption": "Random caption for photo 50",
+            "title": "A Hand, Not Harm",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "portrait",
                 "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 47,
-            "src": "photos/47.jpeg",
-            "title": "Night Current",
-            "caption": "Random caption for photo 51",
+            "src": "photos/47.jpg",
+            "title": "What He Made, What Made Him",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "abstract",
-                "architecture"
+                "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 48,
-            "src": "photos/48.jpeg",
-            "title": "Street Pact",
-            "caption": "Random caption for photo 52",
+            "src": "photos/48.jpg",
+            "title": "Where the Body Believes",
+            "caption": "Thiruvanaikovil, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 49,
             "src": "photos/49.jpg",
-            "title": "Clay Break",
-            "caption": "Random caption for photo 53",
+            "title": "Witnesses",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "portrait",
                 "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 50,
             "src": "photos/50.jpg",
-            "title": "Raised Heel",
-            "caption": "Random caption for photo 54",
+            "title": "Right of Way",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 51,
             "src": "photos/51.jpg",
-            "title": "Twin Perch",
-            "caption": "Random caption for photo 55",
+            "title": "Between Hands and Gods",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "abstract"
+                "abstract",
+                "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 52,
             "src": "photos/52.jpg",
-            "title": "Red Hour",
-            "caption": "Random caption for photo 56",
+            "title": "Here and There”",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -586,8 +589,8 @@ const imageData = {
         {
             "id": 53,
             "src": "photos/53.jpg",
-            "title": "Carry God",
-            "caption": "Random caption for photo 57",
+            "title": "On the Line",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -597,30 +600,30 @@ const imageData = {
         {
             "id": 54,
             "src": "photos/54.jpg",
-            "title": "Front Seat",
-            "caption": "Random caption for photo 58",
+            "title": "Amidst the Noise",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 55,
             "src": "photos/55.jpg",
-            "title": "Shopfront Pause",
-            "caption": "Random caption for photo 59",
+            "title": "After",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 56,
             "src": "photos/56.jpg",
-            "title": "Red Wait",
-            "caption": "Random caption for photo 60",
+            "title": "Between Them",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "street"
             ],
@@ -630,19 +633,19 @@ const imageData = {
         {
             "id": 57,
             "src": "photos/57.jpg",
-            "title": "Staring Match",
-            "caption": "Jawai",
+            "title": "Now",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
-                "wildlife"
+                "street"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 58,
-            "src": "photos/58.jpg",
-            "title": "Camouflaged King",
-            "caption": "Jawai",
+            "src": "photos/58.jpeg",
+            "title": "The Watcher",
+            "caption": "Palamdai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -652,63 +655,63 @@ const imageData = {
         {
             "id": 59,
             "src": "photos/59.jpg",
-            "title": "Rocky Lookout",
-            "caption": "Jawai",
+            "title": "Arc",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 60,
-            "src": "photos/60.jpg",
-            "title": "Wild Silhouette",
-            "caption": "Bandhavgarh National Park",
+            "src": "photos/60.jpeg",
+            "title": "Gaze",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 61,
             "src": "photos/61.jpg",
-            "title": "Alert and Aware",
-            "caption": "Bandhavgarh National Park",
+            "title": "Ascent",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 62,
             "src": "photos/62.jpg",
-            "title": "Forest Guardian",
-            "caption": "Bandhavgarh National Park",
+            "title": "Coiled",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 63,
-            "src": "photos/63.jpeg",
-            "title": "The Sighting",
-            "caption": "Bandhavgarh National Park",
+            "src": "photos/63.jpg",
+            "title": "Confluence",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 64,
             "src": "photos/64.jpg",
-            "title": "Through the Thicket",
-            "caption": "Bandhavgarh National Park",
+            "title": "Peek",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -717,9 +720,9 @@ const imageData = {
         },
         {
             "id": 65,
-            "src": "photos/65.jpeg",
-            "title": "Eye of the Tiger",
-            "caption": "Bandhavgarh National Park",
+            "src": "photos/65.jpg",
+            "title": "Side by Side",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -728,20 +731,20 @@ const imageData = {
         },
         {
             "id": 66,
-            "src": "photos/66.jpg",
-            "title": "Sunlit Stripes",
-            "caption": "Bandhavgarh National Park",
+            "src": "photos/66.jpeg",
+            "title": "Still Kings",
+            "caption": "Tadoba Andhari Tiger Reserve, Maharashtra, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 67,
-            "src": "photos/67.jpg",
-            "title": "Queen of the Jungle",
-            "caption": "Bandhavgarh National Park",
+            "src": "photos/67.jpeg",
+            "title": "At Ease",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -751,19 +754,19 @@ const imageData = {
         {
             "id": 68,
             "src": "photos/68.jpg",
-            "title": "The Patrol",
-            "caption": "Bandhavgarh National Park",
+            "title": "Apex",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
             "date": "2025-04-06",
-            "featured": false
+            "featured": true
         },
         {
             "id": 69,
             "src": "photos/69.jpg",
-            "title": "Regal Walk",
-            "caption": "Bandhavgarh National Park",
+            "title": "Camouflage",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -772,9 +775,9 @@ const imageData = {
         },
         {
             "id": 70,
-            "src": "photos/70.jpg",
-            "title": "Striped Majesty",
-            "caption": "Bandhavgarh National Park",
+            "src": "photos/70.jpeg",
+            "title": "Unfazed",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -784,8 +787,8 @@ const imageData = {
         {
             "id": 71,
             "src": "photos/71.jpeg",
-            "title": "Pelican's Rest",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "title": "Ink on Amber",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -794,9 +797,9 @@ const imageData = {
         },
         {
             "id": 72,
-            "src": "photos/72.jpeg",
-            "title": "Feathered Gathering",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "src": "photos/72.jpg",
+            "title": "Watching the Canopy",
+            "caption": "Chennai, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -806,8 +809,8 @@ const imageData = {
         {
             "id": 73,
             "src": "photos/73.jpg",
-            "title": "The Swimmer",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "title": "Where Silence Perches",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -817,8 +820,8 @@ const imageData = {
         {
             "id": 74,
             "src": "photos/74.jpg",
-            "title": "Nesting High",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "title": "Soft Horizon, Silent Watcher",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -827,9 +830,9 @@ const imageData = {
         },
         {
             "id": 75,
-            "src": "photos/75.jpeg",
-            "title": "Stork in Repose",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "src": "photos/75.jpg",
+            "title": "Soft Chorus of Wings",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -838,9 +841,9 @@ const imageData = {
         },
         {
             "id": 76,
-            "src": "photos/76.jpeg",
-            "title": "The Watchtower",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "src": "photos/76.jpg",
+            "title": "A Thought in Fog",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -850,8 +853,8 @@ const imageData = {
         {
             "id": 77,
             "src": "photos/77.jpg",
-            "title": "Glazing the Sky",
-            "caption": "Vedanthangal Bird Sanctuary",
+            "title": "Disturbance in the Quiet",
+            "caption": "Vedanthangal Bird Sanctuary, Tamil Nadu, India",
             "categories": [
                 "wildlife"
             ],
@@ -861,7 +864,7 @@ const imageData = {
         {
             "id": 78,
             "src": "photos/78.jpg",
-            "title": "Solitary Sentinel",
+            "title": "Eyes in the Grey",
             "caption": "Vedanthangal Bird Sanctuary",
             "categories": [
                 "wildlife"
@@ -872,65 +875,8 @@ const imageData = {
         {
             "id": 79,
             "src": "photos/79.jpg",
-            "title": "The Azure Watch",
-            "caption": "Vedanthangal Bird Sanctuary",
-            "categories": [
-                "wildlife"
-            ],
-            "date": "2025-04-06",
-            "featured": false
-        },
-        {
-            "id": 80,
-            "src": "photos/80.jpg",
-            "title": "The Colony",
-            "caption": "Vedanthangal Bird Sanctuary",
-            "categories": [
-                "wildlife"
-            ],
-            "date": "2025-04-06",
-            "featured": false
-        },
-        {
-            "id": 81,
-            "src": "photos/81.jpg",
-            "title": "The Bow",
-            "caption": "Vedanthangal Bird Sanctuary",
-            "categories": [
-                "wildlife",
-                "experimental"
-            ],
-            "date": "2025-04-06",
-            "featured": false
-        },
-        {
-            "id": 82,
-            "src": "photos/82.jpg",
-            "title": "Wings of the Mist",
-            "caption": "Vedanthangal Bird Sanctuary",
-            "categories": [
-                "wildlife",
-                "experimental"
-            ],
-            "date": "2025-04-06",
-            "featured": false
-        },
-        {
-            "id": 83,
-            "src": "photos/83.jpg",
-            "title": "Amber Gaze",
-            "caption": "Vedanthangal Bird Sanctuary",
-            "categories": [
-                "wildlife"
-            ],
-            "date": "2025-04-06",
-            "featured": false
-        },
-        {
-            "id": 84,
-            "src": "photos/84.jpg",
-            "title": "Hidden Tiger",
-            "caption": "Ranthambore National Park",
+            "title": "Forest Keeps Its Secrets",
+            "caption": "Tadoba Andhari Tiger Reserve, Maharashtra, India",
             "categories": [
                 "wildlife"
             ],
